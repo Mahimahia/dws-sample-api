@@ -1,0 +1,90 @@
+response:
+  success:
+    code: "200"
+    description: "Success"
+    message: "Request processed successfully."
+
+  created:
+    code: "201"
+    description: "Created"
+    message: "Resource created successfully."
+
+  accepted:
+    code: "202"
+    description: "Accepted"
+    message: "Request accepted for processing."
+
+  noContent:
+    code: "204"
+    description: "No Content"
+    message: "Request processed successfully with no content."
+
+  badRequest:
+    code: "400"
+    description: "Bad Request"
+    message: "The request is invalid or contains missing information."
+
+  unauthorized:
+    code: "401"
+    description: "Unauthorized"
+    message: "Authentication is required to access this resource."
+
+  forbidden:
+    code: "403"
+    description: "Forbidden"
+    message: "You do not have permission to access this resource."
+    
+  notFound:
+    code: "404"
+    description: "Not Found"
+    message: "The requested resource was not found."
+
+  methodNotAllowed:
+    code: "405"
+    description: "Method Not Allowed"
+    message: "The HTTP method is not supported for this resource."
+    
+  notAcceptable:
+    code: "406"
+    description: "Not Acceptable"
+    message: "The requested resource cannot produce a response in the requested format."
+    
+  conflict:
+    code: "409"
+    description: "Conflict"
+    message: "The request conflicts with the current state of the resource."
+
+  unsupportedMediaType:
+    code: "415"
+    description: "Unsupported Media Type"
+    message: "The request media type is not supported."
+
+  tooManyRequests:
+    code: "429"
+    description: "Too Many Requests"
+    message: "Too many requests were received. Please try again later."
+
+  internalServerError:
+    code: "500"
+    description: "Internal Server Error"
+    message: "An unexpected error occurred while processing the request."
+
+  notImplemented:
+    code: "501"
+    description: "Not Implemented"
+    message: "The requested functionality is not implemented."
+
+  badGateway:
+    code: "502"
+    description: "Bad Gateway"
+    message: "An invalid response was received from an upstream service."
+
+  serviceUnavailable:
+    code: "503"
+    description: "Service Unavailable"
+    message: "The service is temporarily unavailable."
+
+  gatewayTimeout:
+    code: "504"
+    description: "Gateway Timeout"
+    message: "The upstream service did not respond within the expected time."

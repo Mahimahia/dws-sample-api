@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+
+    <flow name="dws-sample-template-api-main">
+        <http:listener config-ref="dws-sample-template-api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="dws-sample-template-api-config" />
+		<error-handler ref="Error_Handling" />
+    </flow>
+    <flow name="get:\healthcheck:application\json:dws-sample-template-api-config" doc:id="b88f595b-f81d-40a6-8cd1-c2061f82d9a3" >
+		<ee:transform doc:name="Transform Message" doc:id="2fbc07d1-9989-486a-99c4-98dd137af868" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  apiStatus: "running",
+  apiName: p("api.name"),
+  apiVersion: p("api.version"),
+  timestamp:  now(),
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="post:\test:application\json:dws-sample-template-api-config">
+        <logger level="INFO" doc:name="flow starting" doc:id="735dac73-884f-4596-bb5c-3ebb8585afdc" message='#["flow start sucessfully"]'/>
+		<flow-ref doc:name="Create Employee Flow" doc:id="c3a6ce6d-ebd7-4423-93ff-5a325fbe6280" name="createEmployee"/>
+		<logger level="INFO" doc:name="flow ending" doc:id="6caa5473-cc78-4999-87c7-900f74c73d6e" message='#["flow ended sucessfully"]'/>
+    </flow>
+</mule>

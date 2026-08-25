@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+	        <error-handler name="Error_Handling">
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <logger level="INFO" doc:name="Logger" doc:id="0458a229-a7b2-4d02-98e5-933b3e394e92" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	transaction: correlationId,&#10;	apiName: p(&quot;api.name&quot;),&#10;	apiVersion: p(&quot;api.version&quot;),&#10;	timestamp:  now(),&#10;	infoMessage :(&#10;        if(!isEmpty(payload.infoMessage) ) payload.infoMessage&#10;        else {&#10;        statusCode: p('response.badRequest.code') as Number,&#10;		errorType: error.errorType.namespace default &quot;&quot; ++ &quot;:&quot; ++ error.errorType.identifier default &quot;&quot;,&#10;   	    errorDescription: error.detailedDescription default&quot;&quot;&#10;      } )&#10;}]"/>
+			<ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	transaction: correlationId,
+	apiName: p("api.name"),
+	apiVersion: p("api.version"),
+	timestamp:  now(),
+	infoMessage :(
+        if(!isEmpty(payload.infoMessage) ) payload.infoMessage
+        else {
+        statusCode: p('response.badRequest.code') as Number,
+		errorType: error.errorType.namespace default "" ++ ":" ++ error.errorType.identifier default "",
+   	    errorDescription: error.detailedDescription default""
+      } )
+}
+ ]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <logger level="INFO" doc:name="Logger" doc:id="811bad3b-dc89-4805-bb9d-f60db3442613" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	transaction: correlationId,&#10;	apiName: p(&quot;api.name&quot;),&#10;	apiVersion: p(&quot;api.version&quot;),&#10;	timestamp:  now(),&#10;	infoMessage :(&#10;        if(!isEmpty(payload.infoMessage) ) payload.infoMessage&#10;        else {&#10;        statusCode: p('response.notFound.Code') as Number,&#10;		errorType: error.errorType.namespace default &quot;&quot; ++ &quot;:&quot; ++ error.errorType.identifier default &quot;&quot;,&#10;   	    errorDescription: error.detailedDescription default&quot;&quot;&#10;      } )&#10;}]"/>
+			<ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	transaction: correlationId,
+	apiName: p("api.name"),
+	apiVersion: p("api.version"),
+	timestamp:  now(),
+	infoMessage :(
+        if(!isEmpty(payload.infoMessage) ) payload.infoMessage
+        else {
+        statusCode: p('response.notFound.Code') as Number,
+		errorType: error.errorType.namespace default "" ++ ":" ++ error.errorType.identifier default "",
+   	    errorDescription: error.detailedDescription default""
+      } )
+}
+ ]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <logger level="INFO" doc:name="Logger" doc:id="cfd3a9bd-3d90-49b4-b129-d5ebbcdd2c93" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	transaction: correlationId,&#10;	apiName: p(&quot;api.name&quot;),&#10;	apiVersion: p(&quot;api.version&quot;),&#10;	timestamp:  now(),&#10;	infoMessage :(&#10;        if(!isEmpty(payload.infoMessage) ) payload.infoMessage&#10;        else {&#10;        statusCode: p('response.methodNotAllowed.Code') as Number,&#10;		errorType: error.errorType.namespace default &quot;&quot; ++ &quot;:&quot; ++ error.errorType.identifier default &quot;&quot;,&#10;   	    errorDescription: error.detailedDescription default&quot;&quot;&#10;      } )&#10;}]"/>
+			<ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	transaction: correlationId,
+	apiName: p("api.name"),
+	apiVersion: p("api.version"),
+	timestamp:  now(),
+	infoMessage :(
+        if(!isEmpty(payload.infoMessage) ) payload.infoMessage
+        else {
+        statusCode: p('response.methodNotAllowed.Code') as Number,
+		errorType: error.errorType.namespace default "" ++ ":" ++ error.errorType.identifier default "",
+   	    errorDescription: error.detailedDescription default""
+      } )
+}
+ ]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <logger level="INFO" doc:name="Logger" doc:id="79a702b3-d908-4174-b8f8-96b948698278" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	transaction: correlationId,&#10;	apiName: p(&quot;api.name&quot;),&#10;	apiVersion: p(&quot;api.version&quot;),&#10;	timestamp:  now(),&#10;	infoMessage :(&#10;        if(!isEmpty(payload.infoMessage) ) payload.infoMessage&#10;        else {&#10;        statusCode: p('response.notAcceptable.Code') as Number,&#10;		errorType: error.errorType.namespace default &quot;&quot; ++ &quot;:&quot; ++ error.errorType.identifier default &quot;&quot;,&#10;   	    errorDescription: error.detailedDescription default&quot;&quot;&#10;      } )&#10;}]"/>
+			<ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	transaction: correlationId,
+	apiName: p("api.name"),
+	apiVersion: p("api.version"),
+	timestamp:  now(),
+	infoMessage :(
+        if(!isEmpty(payload.infoMessage) ) payload.infoMessage
+        else {
+        statusCode: p('response.notAcceptable.Code') as Number,
+		errorType: error.errorType.namespace default "" ++ ":" ++ error.errorType.identifier default "",
+   	    errorDescription: error.detailedDescription default""
+      } )
+}
+ ]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <logger level="INFO" doc:name="Logger" doc:id="b7709a5e-6484-4b1c-abe5-3e978c6af552" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	transaction: correlationId,&#10;	apiName: p(&quot;api.name&quot;),&#10;	apiVersion: p(&quot;api.version&quot;),&#10;	timestamp:  now(),&#10;	infoMessage :(&#10;        if(!isEmpty(payload.infoMessage) ) payload.infoMessage&#10;        else {&#10;        statusCode: p('response.unsupportedMediaType.Code') as Number,&#10;		errorType: error.errorType.namespace default &quot;&quot; ++ &quot;:&quot; ++ error.errorType.identifier default &quot;&quot;,&#10;   	    errorDescription: error.detailedDescription default&quot;&quot;&#10;      } )&#10;}]"/>
+			<ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	transaction: correlationId,
+	apiName: p("api.name"),
+	apiVersion: p("api.version"),
+	timestamp:  now(),
+	infoMessage :(
+        if(!isEmpty(payload.infoMessage) ) payload.infoMessage
+        else {
+        statusCode: p('response.unsupportedMediaType.Code') as Number,
+		errorType: error.errorType.namespace default "" ++ ":" ++ error.errorType.identifier default "",
+   	    errorDescription: error.detailedDescription default""
+      } )
+}
+ ]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <logger level="INFO" doc:name="Logger" doc:id="dfa78c31-c74f-41ce-a87d-c21840dbefdf" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	transaction: correlationId,&#10;	apiName: p(&quot;api.name&quot;),&#10;	apiVersion: p(&quot;api.version&quot;),&#10;	timestamp:  now(),&#10;	infoMessage :(&#10;        if(!isEmpty(payload.infoMessage) ) payload.infoMessage&#10;        else {&#10;        statusCode: p('response.notImplemented.Code') as Number,&#10;		errorType: error.errorType.namespace default &quot;&quot; ++ &quot;:&quot; ++ error.errorType.identifier default &quot;&quot;,&#10;   	    errorDescription: error.detailedDescription default&quot;&quot;&#10;      } )&#10;}]"/>
+			<ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	transaction: correlationId,
+	apiName: p("api.name"),
+	apiVersion: p("api.version"),
+	timestamp:  now(),
+	infoMessage :(
+        if(!isEmpty(payload.infoMessage) ) payload.infoMessage
+        else {
+        statusCode: p('response.notImplemented.Code') as Number,
+		errorType: error.errorType.namespace default "" ++ ":" ++ error.errorType.identifier default "",
+   	    errorDescription: error.detailedDescription default""
+      } )
+}
+ ]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="5ad6c6da-767e-4cfb-aa82-162f252ba44c" type="ANY">
+			<logger level="INFO" doc:name="Logger" doc:id="d23a6a6d-286a-4349-a89b-27406c56337e" message="#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	transaction: correlationId,&#10;	apiName: p(&quot;api.name&quot;),&#10;	apiVersion: p(&quot;api.version&quot;),&#10;	timestamp:  now(),&#10;	infoMessage :(&#10;        if(!isEmpty(payload.infoMessage) ) payload.infoMessage&#10;        else {&#10;        statusCode: p('response.tooManyRequests.Code') as Number,&#10;		errorType: error.errorType.namespace default &quot;&quot; ++ &quot;:&quot; ++ error.errorType.identifier default &quot;&quot;,&#10;   	    errorDescription: error.detailedDescription default&quot;&quot;&#10;      } )&#10;}]"/>
+			<ee:transform doc:name="Transform Message" doc:id="dc34e1e0-1d85-4644-91e2-389425ac844a" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	transaction: correlationId,
+	apiName: p("api.name"),
+	apiVersion: p("api.version"),
+	timestamp:  now(),
+	infoMessage :(
+        if(!isEmpty(payload.infoMessage) ) payload.infoMessage
+        else {
+        statusCode: p('response.tooManyRequests.Code') as Number,
+		errorType: error.errorType.namespace default "" ++ ":" ++ error.errorType.identifier default "",
+   	    errorDescription: error.detailedDescription default""
+      } )
+}
+ ]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>
+        
+</error-handler>
+	
+	</mule>
