@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="createEmployee" doc:id="1a1948c5-790c-461c-a664-7e000f0070eb" >
+		<logger level="INFO" doc:name="start Implementation" doc:id="cced38bb-359d-4e0f-9a37-2848ed30dfd8" />
+		<ee:transform doc:name="store Employe Details" doc:id="90bbc274-3317-4241-a8eb-4b16c5bdb07b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+readUrl("classpath://dwl/global-transform.dwl", "application/dw")]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="vEmployeeDetails" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	messege: "mahi"
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<ee:transform doc:name="call The Variable Sample" doc:id="7fb19708-1392-46ca-b4f1-edcd7dd39b9e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+vars.vEmployeeDetails]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="end Implementation" doc:id="e9b4d14e-09ea-4b09-9fb4-5a33a506c37f" />
+	</flow>
+</mule>

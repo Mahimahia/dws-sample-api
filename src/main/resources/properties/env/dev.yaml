@@ -1,0 +1,9 @@
+listener:
+  host: "localhost"
+  port: "8081"
+  
+api:
+  name: "dws-sample-api"
+  version: "v1"
+  
+
